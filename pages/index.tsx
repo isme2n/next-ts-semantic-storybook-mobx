@@ -5,8 +5,20 @@ import { List } from 'semantic-ui-react'
 import DefaultLayout from '../layouts/Default'
 import ListItem from '../components/ListItem';
 
+interface IIndexProps {
+  shows: {
+    score: number;
+    show: IShow;
+  }[]
+}
 
-const Index = (props) => (
+interface IShow {
+  id: string;
+  name: string;
+  genres: string[]
+}
+
+const Index = (props: IIndexProps) => (
   <DefaultLayout>
     <h1>Batman TV Shows</h1>
     <List>
@@ -15,22 +27,8 @@ const Index = (props) => (
       ))}
     </List>
     <style jsx>{`
-        h1, a {
+        h1 {
             font-family: "Arial";
-        }
-        ul {
-            padding: 0;
-        }
-        li {
-            list-style: none;
-            margin: 5px 0;
-        }
-        a {
-            text-decoration: none;
-            color: blue;
-        }
-        a:hover {
-            opacity: 0.6;
         }
         `
         }
