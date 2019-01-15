@@ -6,10 +6,12 @@ interface IListItemProps {
     id: string;
     title: string;
     description: string;
+    as?: string;
+    href?: string;
 }
 
 const ListItem = (props: IListItemProps) => (
-    <Link as={`/p/${props.id}`} href={`/post?id=${props.id}`}>
+    <Link as={props.as} href={props.href}>
         <List.Item >
             <List.Header as='a'>{props.title}</List.Header>
             <List.Description>{props.description}</List.Description>

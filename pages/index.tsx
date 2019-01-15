@@ -23,7 +23,7 @@ const Index = (props: IIndexProps) => (
     <h1>Batman TV Shows</h1>
     <List>
       {props.shows.map(({show}) => (
-        <ListItem key={show.id} id={show.id} title={show.name} description={show.genres[0]}/>
+        <ListItem key={show.id} id={show.id} as={`/p/${show.id}`} href={`/post?id=${show.id}`} title={show.name} description={show.genres[0]}/>
       ))}
     </List>
     <style jsx>{`
