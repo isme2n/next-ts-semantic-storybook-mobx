@@ -1,16 +1,13 @@
-import { Menu } from 'semantic-ui-react'
+import { Menu } from "semantic-ui-react";
 
-import Link from 'next/link'
+import Link from "next/link";
 
 const Header = () => (
-    <Menu tabular>
-        <Link href="/">
-            <Menu.Item name='home' />
-        </Link>
-        <Link href="/post">
-            <Menu.Item name='post' />
-        </Link>
-    </Menu>
-)
+  <Menu tabular>
+    <Link href="/">
+      <Menu.Item name="home" />
+    </Link>
+  </Menu>
+);
 
-export default Header
+export default Header;
