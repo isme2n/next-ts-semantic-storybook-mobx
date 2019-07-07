@@ -8,6 +8,9 @@ const Header = () => (
       <Link href="/">
         <Menu.Item name="home" />
       </Link>
+      <Link href="/board">
+        <Menu.Item name="board" />
+      </Link>
     </Container>
   </Menu>
 );

@@ -1,22 +1,22 @@
-import { List } from 'semantic-ui-react'
+import { List, Segment } from "semantic-ui-react";
 
-import Link from 'next/link'
+import Link from "next/link";
 
 interface IListItemProps {
-    id: string;
-    title: string;
-    description: string;
-    as?: string;
-    href?: string;
+  timestamp: string;
+  title: string;
+  contents: string;
 }
 
-const ListItem = (props: IListItemProps) => (
-    <Link as={props.as} href={props.href}>
-        <List.Item >
-            <List.Header as='a'>{props.title}</List.Header>
-            <List.Description>{props.description}</List.Description>
-        </List.Item>
-    </Link>
-)
-
-export default ListItem
+export const ListItem = (props: IListItemProps) => (
+  <Segment>
+    <List.Item>
+      <List.Header as={"h4"}>{props.title}</List.Header>
+      <List.Description>
+        {new Date(parseInt(props.timestamp) * 1000).toLocaleString()}
+      </List.Description>
+      <br />
+      <List.Description>{props.contents}</List.Description>
+    </List.Item>
+  </Segment>
+);

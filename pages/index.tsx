@@ -1,58 +1,81 @@
 import fetch from "isomorphic-unfetch";
 
-import { List } from "semantic-ui-react";
+import {
+  Button,
+  Form,
+  Input,
+  Header,
+  Divider,
+  TextArea
+} from "semantic-ui-react";
 
 import DefaultLayout from "../layouts/Default";
-import ListItem from "../components/ListItem";
 
-interface IIndexProps {
-  shows: {
-    score: number;
-    show: IShow;
-  }[];
-}
+import { useState } from "react";
+import { cav } from "../caver/caver";
+import { postContract } from "../caver/postContract";
 
-interface IShow {
-  id: string;
-  name: string;
-  genres: string[];
-}
+interface IIndexProps {}
 
-const Index = (props: IIndexProps) => (
-  <DefaultLayout>
-    <h1>Batman TV Shows</h1>
-    <List>
-      {props.shows.map(({ show }) => (
-        <ListItem
-          key={show.id}
-          id={show.id}
-          as={`/p/${show.id}`}
-          href={`/post?id=${show.id}`}
-          title={show.name}
-          description={show.genres[0]}
-        />
-      ))}
-    </List>
-    <style jsx>
-      {`
-        h1 {
-          font-family: "Arial";
-        }
-      `}
-    </style>
-  </DefaultLayout>
-);
+const Index = (props: IIndexProps) => {
+  const [privateKey, setPrivateKey] = useState("");
+  const [contractAddress, setContractAddress] = useState("");
+  const [title, setTitle] = useState("");
+  const [contents, setContents] = useState("");
 
-Index.getInitialProps = async function() {
-  const res = await fetch("https://api.tvmaze.com/search/shows?q=batman");
-  const data = await res.json();
+  const savePostOnKlaytn = async () => {
+    postContract.setAddress(contractAddress);
+    const accounts = await cav.klay.accounts.wallet;
+    if (!!!accounts[0]) {
+      await cav.klay.accounts.wallet.add(privateKey);
+    }
 
-  console.log(`Show data fetched. Count: ${data.length}`);
-  console.log(data);
-
-  return {
-    shows: data
+    try {
+      await postContract.posting(privateKey, title, contents);
+      alert("success");
+    } catch (err) {
+      alert(err);
+    }
   };
+
+  return (
+    <DefaultLayout>
+      <Header>DongDuk Klaytn DAPP</Header>
+      <Header sub>Private Key</Header>
+      <Input
+        fluid
+        placeholder="plz input your private key"
+        value={privateKey}
+        onChange={(e: any) => setPrivateKey(e.target.value)}
+      />
+      <Header sub>Contract Address</Header>
+      <Input
+        fluid
+        placeholder="plz input your contract address"
+        value={contractAddress}
+        onChange={(e: any) => setContractAddress(e.target.value)}
+      />
+      <Divider />
+      <Header sub>Title</Header>
+      <Input
+        fluid
+        placeholder="title"
+        onChange={(e: any) => setTitle(e.target.value)}
+      />
+      <Header sub>Content</Header>
+      <Form>
+        <TextArea
+          fluid
+          placeholder="content"
+          onChange={(e: any) => setContents(e.target.value)}
+        />
+      </Form>
+      <br />
+      <Button primary floated="right" onClick={savePostOnKlaytn}>
+        SAVE
+      </Button>
+    </DefaultLayout>
+  );
 };
 
 export default Index;
